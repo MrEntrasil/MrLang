@@ -1,9 +1,4 @@
-push "Hello world!"
-print
-
-push "Hello MrLang!"
-print
-push
-clear_stack
-// Should throw a stack error
+push 42
+store x
+load x
 print

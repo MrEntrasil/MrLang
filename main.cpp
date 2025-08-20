@@ -1,9 +1,7 @@
+#include "mrlang.hpp"
 #include <iostream>
 #include <string>
 #include <fstream>
-#include "core/lexer.hpp"
-#include "core/ir.hpp"
-#include "core/interpreter.hpp"
 
 std::string readfile(std::string pat);
 

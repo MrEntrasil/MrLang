@@ -8,10 +8,12 @@
 
 enum class token_t {
 	END, NUMBER, STRING,
+	IDENT,
 
 	PUSH, POP, PRINT,
 	CLEARSTACK, ADD, SUB,
-	DIV, MUL
+	DIV, MUL, STORE,
+	LOAD
 };
 
 struct token {
@@ -39,6 +41,12 @@ std::vector<token> tokenize(std::string& src) {
 				tokens.push_back({ token_t::DIV, "" });
 			} else if (!word.compare("mul")) {
 				tokens.push_back({ token_t::MUL, "" });
+			} else if (!word.compare("store")) {
+				tokens.push_back({ token_t::STORE, "" });
+			} else if (!word.compare("load")) {
+				tokens.push_back({ token_t::LOAD, "" });
+			} else if (std::all_of(word.begin(), word.end(), ::isalpha)) {
+				tokens.push_back({ token_t::IDENT, word });
 			} else if (std::all_of(word.begin(), word.end(), ::isdigit)) {
 				tokens.push_back({ token_t::NUMBER, word });
 			} else if (!word.compare("clear_stack")) {
@@ -62,6 +70,7 @@ std::vector<token> tokenize(std::string& src) {
 			} else if (word == "//") {
 				std::string buff;
 				std::getline(iss, buff);
+				buff.clear();
 				continue;
 			} else {
 				std::cerr << "Unexpected token: " << word << '\n';
