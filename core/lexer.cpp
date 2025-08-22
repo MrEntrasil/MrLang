@@ -23,6 +23,12 @@ std::vector<token> tokenize(std::string& src) {
             tokens.push_back({ token_t::SWAP, "" });
         } else if (!word.compare("dup")) {
             tokens.push_back({ token_t::DUP, "" });
+        } else if (!word.compare("call")) {
+            tokens.push_back({ token_t::CALL, "" });
+        } else if (!word.compare("callf")) {
+            tokens.push_back({ token_t::CALLF, "" });
+        } else if (word.back() == ':') {
+            tokens.push_back({ token_t::LABEL, word.substr(0, word.size()-1) });
         } else if (std::all_of(word.begin(), word.end(), ::isalpha)) {
             tokens.push_back({ token_t::IDENT, word });
         } else if (std::all_of(word.begin(), word.end(), ::isxdigit)) {

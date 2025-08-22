@@ -17,6 +17,12 @@ std::vector<instruction> translateIR(std::vector<token> tokens) {
             case token_t::LOAD:
                 load_key(&tokens, &i, &ir);
                 break;
+            case token_t::CALL:
+                call_key(&tokens, &i, &ir);
+                break;
+            case token_t::CALLF:
+                callf_key(&tokens, &i, &ir);
+                break;
             case token_t::POP:
                 ir.push_back({ opcode::POP, "" });
                 break;
@@ -32,11 +38,13 @@ std::vector<instruction> translateIR(std::vector<token> tokens) {
             case token_t::END:
                 ir.push_back({ opcode::END, "" });
                 break;
+            case token_t::LABEL:
+                ir.push_back({ opcode::LABEL, t.value });
+                break;
             case token_t::IDENT:
                 ir.push_back({ opcode::IDENT, t.value });
                 break;
-            default:
-                break;
+            default: break;
         }
     }
 
@@ -79,4 +87,23 @@ void load_key(std::vector<token>* tokens, size_t* i, std::vector<instruction>* i
         std::cerr << "IR error: 'load' has no value or value isn't an identifier\n";
         std::exit(1);
     }
+}
+
+void call_key(std::vector<token>* tokens, size_t* i, std::vector<instruction>* ir) {
+    if (tokens->size() > *i + 1 && tokens->at(*i+1).type == token_t::IDENT) {
+        ir->push_back({ opcode::CALL, tokens->at(*i+1).value });
+        (*i)++;
+    } else {
+        std::cerr << "IR error: 'call' has n    o value or value isn't an identifier\n";        std::exit(1);
+    }
+}
+
+void callf_key(std::vector<token>* tokens, size_t* i, std::vector<instruction>* ir) {
+   if (tokens->size() > *i + 1 && tokens->at(*i+1).type == token_t::IDENT) {
+        ir->push_back({ opcode::CALLF, tokens->at(*i+1).value });
+        (*i)++;
+    } else {
+        std::cerr << "IR error: 'callf' has no value or value isn't an identifier\n";
+        std::exit(1);
+    } 
 }

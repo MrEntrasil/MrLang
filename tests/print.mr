@@ -1,2 +1,12 @@
-push "Hello world"
+// Hello world em MrLang
+push "Hello world!"
 print
+pop
+
+// deve multiplicar 10x10 e depois printar
+push 10
+dup
+mul print
+
+// limpa a stack
+clear

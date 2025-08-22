@@ -4,10 +4,11 @@
 
 enum class token_t {
     END, NUMBER, STRING,
-    IDENT,
+    IDENT, LABEL,
     PUSH, POP, CLEARSTACK,
     STORE, LOAD,
-    SWAP, DUP
+    SWAP, DUP,
+    CALL, CALLF
 };
 
 struct token {

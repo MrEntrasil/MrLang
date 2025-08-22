@@ -17,12 +17,16 @@ std::string readfile(std::string pat);
  * libmr.a (yeah, my own lib for my own OS)
  * */
 
-int main(void) {
+int main(int argc, char* argv[]) {
+	if (argc != 2) {
+		std::cout << "Usage: mrlang <file>.mr\n";
+		return EXIT_FAILURE;
+	}
 	struct MrLangVM vm;
 	std::string code;
 	std::vector<token> tokens;
 	std::vector<instruction> instructions;
-	code = readfile("index.mr");
+	code = readfile(argv[1]);
 	tokens = tokenize(code);
 	instructions = translateIR(tokens);
 	

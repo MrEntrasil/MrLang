@@ -7,6 +7,12 @@
 void run_program(struct MrLangVM* vm, std::vector<instruction> ir) {
     for (size_t i = 0; i < ir.size(); i++) {
         instruction instr = ir[i];
+        if (instr.op == opcode::LABEL) {
+            vm->labels[instr.operand] = i;
+        }
+    }
+    for (size_t i = 0; i < ir.size(); i++) {
+        instruction instr = ir[i];
 
         switch (instr.op) {
             case opcode::IDENT: {
@@ -18,7 +24,7 @@ void run_program(struct MrLangVM* vm, std::vector<instruction> ir) {
                 vm->st.push_back(instr.operand);
                 break;
             case opcode::PUSH_NUM:
-                vm->st.push_back(static_cast<int32_t>(std::stoi(instr.operand)));
+                vm->st.push_back(static_cast<int>(std::stoi(instr.operand)));
                 break;
             case opcode::POP:
                 if (!vm->st.empty()) {
@@ -46,6 +52,21 @@ void run_program(struct MrLangVM* vm, std::vector<instruction> ir) {
                 if (vm->st.empty()) MrLangError_stacksize(1, "interpreter");
                 vm->st.push_back(vm->st.back());
                 break;
+            case opcode::CALL:
+                if (vm->labels.find(instr.operand) != vm->labels.end()) {
+                    i = vm->labels[instr.operand];
+                    continue;
+                }
+            case opcode::CALLF: {
+                if (vm->st.empty()) MrLangError_stacksize(1, "callf");
+                auto c = vm->st.back();
+                vm->st.pop_back();
+
+                if (std::holds_alternative<int>(c) && std::get<int>(c) != 0 && std::get<int>(c) == 1 && vm->labels.find(instr.operand) != vm->labels.end()) {
+                    i = vm->labels[instr.operand];
+                    continue;
+                }
+            }
             case opcode::SWAP: {
                 if (vm->st.size() < 2) MrLangError_stacksize(2, "interpreter");
                 auto a = vm->st.back();
