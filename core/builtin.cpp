@@ -4,7 +4,7 @@
 #include <iostream>
 
 void MrLang_initbuiltin(struct MrLangVM* vm){
-	vm->funcs["print"] = [](struct MrLangVM* vm) {
+	MrLang_NewFunction(vm, "print", [](struct MrLangVM* vm) {
 		if (vm->st.empty()) {
 			std::cout << "print error: stack is empty\n";
 			std::exit(1);
@@ -13,9 +13,9 @@ void MrLang_initbuiltin(struct MrLangVM* vm){
 		std::visit([](auto& val){
 			std::cout << val << '\n';
 		}, vm->st.back());
-	};
+	});
 
-	vm->funcs["add"] = [](struct MrLangVM* vm){
+	MrLang_NewFunction(vm, "add", [](struct MrLangVM* vm){
 		if (vm->st.size() < 2) MrLangError_stacksize(2, "add");
 		auto a = vm->st.back();
 		vm->st.pop_back();
@@ -28,9 +28,9 @@ void MrLang_initbuiltin(struct MrLangVM* vm){
 
 			vm->st.push_back(x+y);
 		} else MrLangError_wrongtype("number", "add");
-	};
+	});
 
-	vm->funcs["sub"] = [](struct MrLangVM* vm){
+	MrLang_NewFunction(vm, "sub", [](struct MrLangVM* vm){
 		if (vm->st.size() < 2) MrLangError_stacksize(2, "sub");
 		auto a = vm->st.back();
 		vm->st.pop_back();
@@ -43,9 +43,9 @@ void MrLang_initbuiltin(struct MrLangVM* vm){
 
 			vm->st.push_back(x-y);
 		} else MrLangError_wrongtype("number", "sub");
-	};
+	});
 
-	vm->funcs["mul"] = [](struct MrLangVM* vm){
+	MrLang_NewFunction(vm, "mul", [](struct MrLangVM* vm){
 		if (vm->st.size() < 2) MrLangError_stacksize(2, "mul");
 		auto a = vm->st.back();
 		vm->st.pop_back();
@@ -58,9 +58,9 @@ void MrLang_initbuiltin(struct MrLangVM* vm){
 
 			vm->st.push_back(x*y);
 		} else MrLangError_wrongtype("number", "mul");
-	};
+	});
 
-	vm->funcs["div"] = [](struct MrLangVM* vm){
+	MrLang_NewFunction(vm, "div", [](struct MrLangVM* vm){
 		if (vm->st.size() < 2) MrLangError_stacksize(2, "div");
 		auto a = vm->st.back();
 		vm->st.pop_back();
@@ -73,5 +73,5 @@ void MrLang_initbuiltin(struct MrLangVM* vm){
 
 			vm->st.push_back(x/y);
 		} else MrLangError_wrongtype("number", "div");
-	};
+	});
 }

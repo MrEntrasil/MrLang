@@ -19,9 +19,13 @@ std::vector<token> tokenize(std::string& src) {
             tokens.push_back({ token_t::STORE, "" });
         } else if (!word.compare("load")) {
             tokens.push_back({ token_t::LOAD, "" });
+        } else if (!word.compare("swap")) {
+            tokens.push_back({ token_t::SWAP, "" });
+        } else if (!word.compare("dup")) {
+            tokens.push_back({ token_t::DUP, "" });
         } else if (std::all_of(word.begin(), word.end(), ::isalpha)) {
             tokens.push_back({ token_t::IDENT, word });
-        } else if (std::all_of(word.begin(), word.end(), ::isdigit)) {
+        } else if (std::all_of(word.begin(), word.end(), ::isxdigit)) {
             tokens.push_back({ token_t::NUMBER, word });
         } else if (!word.compare("clear")) {
             tokens.push_back({ token_t::CLEARSTACK, "" });

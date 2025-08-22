@@ -10,6 +10,7 @@ set(SOURCES
 	core/interpreter.cpp
 	core/builtin.cpp
 	core/error.cpp
+	core/vm.cpp
 )
 
 add_executable(mrlang ${SOURCES})

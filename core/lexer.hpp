@@ -6,7 +6,8 @@ enum class token_t {
     END, NUMBER, STRING,
     IDENT,
     PUSH, POP, CLEARSTACK,
-    STORE, LOAD
+    STORE, LOAD,
+    SWAP, DUP
 };
 
 struct token {

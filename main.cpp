@@ -14,6 +14,7 @@ std::string readfile(std::string pat);
  * uppercase/lowercase string
  * stacksize (size or bytes)
  * skibidi (skibidi "soundtrack" loop)
+ * libmr.a (yeah, my own lib for my own OS)
  * */
 
 int main(void) {

@@ -23,6 +23,12 @@ std::vector<instruction> translateIR(std::vector<token> tokens) {
             case token_t::CLEARSTACK:
                 ir.push_back({ opcode::CLEARSTACK,"" });
                 break;
+            case token_t::DUP:
+                ir.push_back({ opcode::DUP, "" });
+                break;
+            case token_t::SWAP:
+                ir.push_back({ opcode::SWAP, "" });
+                break;
             case token_t::END:
                 ir.push_back({ opcode::END, "" });
                 break;

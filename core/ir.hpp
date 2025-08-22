@@ -7,7 +7,8 @@ enum class opcode {
     PUSH_STR, PUSH_NUM,
     CLEARSTACK, POP,
     END, STORE,
-    LOAD, IDENT
+    LOAD, IDENT,
+    SWAP, DUP
 };
 
 struct instruction {

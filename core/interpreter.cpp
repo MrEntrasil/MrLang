@@ -1,5 +1,6 @@
 #include "interpreter.hpp"
 #include "builtin.hpp"
+#include "error.hpp"
 #include <iostream>
 #include <cstdlib>
 
@@ -41,6 +42,20 @@ void run_program(struct MrLangVM* vm, std::vector<instruction> ir) {
                     std::exit(1);
                 }
                 break;
+            case opcode::DUP:
+                if (vm->st.empty()) MrLangError_stacksize(1, "interpreter");
+                vm->st.push_back(vm->st.back());
+                break;
+            case opcode::SWAP: {
+                if (vm->st.size() < 2) MrLangError_stacksize(2, "interpreter");
+                auto a = vm->st.back();
+                vm->st.pop_back();
+                auto b = vm->st.back();
+                vm->st.pop_back();
+                vm->st.push_back(a);
+                vm->st.push_back(b);
+                break;
+            }
             case opcode::LOAD: {
                 auto val = vm->vars.find(instr.operand);
                 if (val != vm->vars.end()) {
