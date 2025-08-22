@@ -1,19 +1,32 @@
-#include "mrlang.hpp"
+#include "core/lexer.hpp"
+#include "core/ir.hpp"
+#include "core/interpreter.hpp"
+#include "core/vm.hpp"
+#include "core/builtin.hpp"
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <sstream>
 
 std::string readfile(std::string pat);
 
+/*TODO:
+ * uppercase/lowercase string
+ * stacksize (size or bytes)
+ * skibidi (skibidi "soundtrack" loop)
+ * */
+
 int main(void) {
+	struct MrLangVM vm;
 	std::string code;
 	std::vector<token> tokens;
 	std::vector<instruction> instructions;
 	code = readfile("index.mr");
 	tokens = tokenize(code);
 	instructions = translateIR(tokens);
-
-	run_program(instructions);
+	
+	MrLang_initbuiltin(&vm);
+	run_program(&vm, instructions);
 
 	return EXIT_SUCCESS;
 }
